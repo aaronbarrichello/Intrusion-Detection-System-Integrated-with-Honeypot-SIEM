@@ -10,3 +10,57 @@ This project captures suspicious network interactions through a Dionaea honeypot
 - Filebeat : https://www.elastic.co/docs/reference/beats/filebeat
 - Elasticsearch : https://www.elastic.co/docs/reference/elasticsearch
 - Kibana : https://www.elastic.co/docs/reference/kibana
+
+## How to Start the System
+
+Before starting the system, make sure all required configurations on **VM 2**, **VM 3**, and **VM 4** have been completed correctly.
+
+### 1. Start all virtual machines
+Power on all VMs used in the experiment:
+- **VM 1**: Attacker node
+- **VM 2**: Honeypot and analysis node
+- **VM 3**: SIEM node
+- **VM 4**: Real server node
+
+### 2. Start Elasticsearch and Kibana on VM 3
+On **VM 3**, start the Elasticsearch and Kibana containers:
+
+```bash
+sudo docker start es01 && sudo docker start kib01
+```
+Wait a few minutes until both services are fully initialized.
+
+### 3. Check Filebeat service on all relevant VMs
+Check Filebeat status on VM 2, VM 3, and VM 4:
+```bash
+sudo systemctl status filebeat
+```
+If the service is not active, start it manually:
+```bash
+sudo systemctl start filebeat
+```
+
+### 4. Verify Elasticsearch service
+Still on VM 3, verify that Elasticsearch is running properly:
+```bash
+curl http://localhost:9200
+```
+If a JSON response is returned, the service is ready to use.
+
+### 5. Start Dionaea on VM 2
+On VM 2, start the Dionaea honeypot service:
+```bash
+sudo /opt/dionaea/bin/dionaea -l all,-debug -L '*'
+```
+
+### 6. Start Dionaea on VM 2
+Still on VM 2, run the SLIPS container:
+```bash
+sudo docker run -d \
+  --name slips \
+  --net=host \
+  -v /home/$USER/slips_out:/StratosphereLinuxIPS/output \
+  stratosphereips/slips:latest \
+  /StratosphereLinuxIPS/slips.py -i enp0s8
+```
+You can now perform attack simulations from the attacker machine, such as port scanning, brute-force,dos/ddos, etc
