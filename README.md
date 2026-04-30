@@ -27,7 +27,7 @@ The proposed system was implemented and tested in a virtualized environment usin
 | VM 3 | SIEM Node | 1 Core | 4 GB | Ubuntu 22.04.5 LTS |
 | VM 4 | Real Server Node | 1 Core | 2 GB | Ubuntu 22.04.5 LTS |
 
-## How to Start the System
+# How to Start the System
 
 Before starting the system, make sure all required configurations on **VM 2**, **VM 3**, and **VM 4** have been completed correctly.
 
