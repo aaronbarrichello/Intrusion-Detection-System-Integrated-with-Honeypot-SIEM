@@ -120,7 +120,7 @@ sudo docker run -d \
 You can now perform attack simulations from the attacker machine, such as port scanning, brute-force,dos/ddos, etc
 
 ### 7. Admin logs
-To simulate the admin acitivity on the real server, you can run the python code i provided.
+To simulate the admin acitivity on the real server, you can run the python code i provided below.
 
 ### 8. Monitor alerts
 To monitor all the security events and logs forwarded by Filebeat to the SIEM  node, open a web browser on VM 3 and navigate to http://192.168.100.30:5601. This address points to the Kibana web interface hosted on VM 3, which serves  as the centralized dashboard for visualizing all indexed data stored in Elasticsearch.
