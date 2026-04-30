@@ -1,0 +1,44 @@
+filebeat.inputs:
+  - type: filestream
+    id: slips-alerts
+    enabled: true
+    paths:
+      - /home/honeypot/slips_out/*/alerts.json
+
+    parsers:
+      - ndjson:
+          target: ""
+          overwrite_keys: true
+          expand_keys: true
+          add_error_key: true
+
+processors:
+  - timestamp:
+      field: CreateTime
+      layouts:
+        - '2006-01-02T15:04:05.999999Z07:00'
+      target_field: "@timestamp"
+      ignore_missing: true
+      fail_on_error: false
+
+  - dissect:
+      tokenizer: "/home/honeypot/slips_out/%{run_folder}/alerts.json"
+      field: "log.file.path"
+      target_prefix: ""
+      ignore_failure: true
+
+  - add_fields:
+      target: ""
+      fields:
+        source_system: "slips"
+        project_name: "ta-dionaea-slips"
+
+setup.ilm.enabled: false
+setup.template.enabled: true
+setup.template.name: "slipslive"
+setup.template.pattern: "slipslive*"
+setup.template.overwrite: true
+
+output.elasticsearch:
+  hosts: ["http://192.168.100.30:9200"]
+  index: "slipslive"
