@@ -1,0 +1,39 @@
+# This filebeat configuration is made for vm 4
+
+filebeat.inputs:
+  - type: filestream
+    id: realserver-http
+    enabled: true
+    paths:
+      - /var/log/nginx/admin_access.json
+
+    parsers:
+      - ndjson:
+          target: ""
+          overwrite_keys: true
+          add_error_key: true
+
+processors:
+  - timestamp:
+      field: time
+      layouts:
+        - '2006-01-02T15:04:05Z07:00'
+      target_field: "@timestamp"
+      ignore_missing: true
+      fail_on_error: false
+
+  - add_fields:
+      target: ""
+      fields:
+        source_system: "real_server"
+        project_name: "ta-honeypot-live"
+
+setup.ilm.enabled: false
+setup.template.enabled: true
+setup.template.name: "realsrvlive"
+setup.template.pattern: "realsrvlive*"
+setup.template.overwrite: true
+
+output.elasticsearch:
+  hosts: ["http://192.168.100.30:9200"]
+  index: "realsrvlive"
