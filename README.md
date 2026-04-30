@@ -46,12 +46,8 @@ sudo docker start es01 && sudo docker start kib01
 ```
 Wait a few minutes until both services are fully initialized.
 
-### 3. Check Filebeat service on all relevant VMs
-Check Filebeat status on VM 2, VM 3, and VM 4:
-```bash
-sudo systemctl status filebeat
-```
-If the service is not active, start it manually:
+### 3. Start Filebeat
+Start Filebeat status on VM 2, and VM 4:
 ```bash
 sudo systemctl start filebeat
 ```
