@@ -3,6 +3,7 @@ This project captures suspicious network interactions through a Dionaea honeypot
 
 # Architecture
 <img width="1169" height="827" alt="architecture" src="https://github.com/user-attachments/assets/1231182d-d058-4034-9d60-16af695223fa" />
+This architecture begins when VM1 attempts to send attack traffic to VM4, but the traffic is blocked by the firewall policy on the real server. As a result, the attacker cannot directly access VM4. The suspicious interactions are instead observed through VM2, which acts as the honeypot and analysis node. On VM2, Dionaea captures the attack traffic, SLIPS analyzes the behavior, and Filebeat forwards the generated alert data to VM3. On VM3, Elasticsearch stores and indexes the data, while Kibana visualizes the alerts for centralized monitoring. At the same time, VM4 continues to generate legitimate service logs, which are also sent to VM3 through Filebeat. This design allows the system to separate blocked malicious activity from authorized normal activity within a single SIEM platform.
 
 # Main Components
 - Dionaea Honeypot : https://dionaea.readthedocs.io/en/latest/
