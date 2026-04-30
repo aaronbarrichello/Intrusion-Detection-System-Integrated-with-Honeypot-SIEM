@@ -1,13 +1,8 @@
-# Intrusion Detection System Using SLIPS, Honeypot, and SIEM Visualization
+# Overview
+This project captures suspicious network interactions through a Dionaea honeypot, analyzes them using SLIPS's machine learning-based behavioral detection engine, and forwards structured alerts via Filebeat to Elasticsearch for centralized indexing and Kibana dashboard visualization.
 
-This repository contains the technical artifacts of an undergraduate thesis on an intrusion detection architecture integrating Dionaea honeypot, Stratosphere Linux IPS (SLIPS), Filebeat, Elasticsearch, and Kibana in a virtualized environment.
-
-## System Overview
-The system consists of four virtual machines:
-- VM1: Attacker node
-- VM2: Honeypot and analysis node
-- VM3: SIEM and admin node
-- VM4: Real server node
+## Architecture
+<img width="1169" height="827" alt="architecture" src="https://github.com/user-attachments/assets/1231182d-d058-4034-9d60-16af695223fa" />
 
 ## Main Components
 - Dionaea Honeypot
