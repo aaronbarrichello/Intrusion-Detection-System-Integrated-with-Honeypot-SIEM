@@ -61,7 +61,7 @@ In this project, the time window was changed to 5 minutes in order to make detec
 config/slips.yaml
 ```
 
-### 6. Install filebeat
+### 6. Install filebeat on VM2 & VM4
 
 ```bash
 sudo apt install filebeat -y
@@ -119,5 +119,8 @@ sudo docker run -d \
 ```
 You can now perform attack simulations from the attacker machine, such as port scanning, brute-force,dos/ddos, etc
 
-### 7. Monitor alerts
+### 7. Admin logs
+To simulate the admin acitivity on the real server, you can run the python code i provided.
+
+### 8. Monitor alerts
 To monitor all the security events and logs forwarded by Filebeat to the SIEM  node, open a web browser on VM 3 and navigate to http://192.168.100.30:5601. This address points to the Kibana web interface hosted on VM 3, which serves  as the centralized dashboard for visualizing all indexed data stored in Elasticsearch.
