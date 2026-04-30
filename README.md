@@ -56,7 +56,7 @@ mkdir -p ~/slips_out
 ### 5. Customize SLIPS configuration
 SLIPS is an open-source tool, so its configuration can be adjusted based on the experimental needs.
 
-In this project, the time window was changed to 5 minutes in order to make detection more responsive. To modify the time window, open the following configuration file inside the SLIPS environment:
+In this project, the time window was changed to 5 minutes in order to make detection faster. To modify the time window, open the following configuration file inside the SLIPS environment:
 ```bash
 config/slips.yaml
 ```
