@@ -11,6 +11,21 @@ This project captures suspicious network interactions through a Dionaea honeypot
 - Elasticsearch : https://www.elastic.co/docs/reference/elasticsearch
 - Kibana : https://www.elastic.co/docs/reference/kibana
 
+# Specification
+The proposed system was implemented and tested in a virtualized environment using **Oracle VirtualBox** on the following host machine and virtual machine specifications.
+
+| Component | Specification |
+|---|---|
+| CPU | AMD Ryzen 7 8845HS w/ Radeon 780M Graphics (16 CPUs), ~3.8 GHz |
+| RAM | 16 GB |
+| OS | Windows 11 Home Single Language 64-bit |
+
+| VM | Role | CPU | RAM | OS |
+|---|---|---:|---:|---|
+| VM 2 | Honeypot & Analysis Node | 8 Core | 12 GB | Ubuntu 18.04.6 LTS |
+| VM 3 | SIEM Node | 1 Core | 4 GB | Ubuntu 22.04.5 LTS |
+| VM 4 | Real Server Node | 1 Core | 2 GB | Ubuntu 22.04.5 LTS |
+
 ## How to Start the System
 
 Before starting the system, make sure all required configurations on **VM 2**, **VM 3**, and **VM 4** have been completed correctly.
