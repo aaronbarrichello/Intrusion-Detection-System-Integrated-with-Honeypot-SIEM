@@ -27,9 +27,51 @@ The proposed system was implemented and tested in a virtualized environment usin
 | VM 3 | SIEM Node | 1 Core | 4 GB | Ubuntu 22.04.5 LTS |
 | VM 4 | Real Server Node | 1 Core | 2 GB | Ubuntu 22.04.5 LTS |
 
+# Installation
+### 1. Update the operating system on each VM
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+### 2. Install Docker
+Docker is required on VM 2 to run SLIPS & VM 3 to run Elasticsearch and Kibana. Please follow the official Docker installation guide for Ubuntu https://docs.docker.com/engine/install/ubuntu/
+
+### 3. Pull the SLIPS image on VM 2
+```bash
+docker pull stratosphereips/slips:latest
+```
+
+### 3. Pull the ElasticSearch & Kibana image on VM 3
+```bash
+docker pull docker.elastic.co/elasticsearch/elasticsearch:9.3.1
+docker pull docker.elastic.co/kibana/kibana:9.3.1
+```
+
+### 4. Create the SLIPS output directory on VM 2
+Create a directory in the home folder to store SLIPS output files:
+
+```bash
+mkdir -p ~/slips_out
+```
+
+### 5. Customize SLIPS configuration
+SLIPS is an open-source tool, so its configuration can be adjusted based on the experimental needs.
+
+In this project, the time window was changed to 5 minutes in order to make detection more responsive. To modify the time window, open the following configuration file inside the SLIPS environment:
+```bash
+config/slips.yaml
+```
+
+### 6. Install filebeat
+
+```bash
+sudo apt install filebeat -y
+sudo nano /etc/filebeat/filebeat.yml
+```
+Edit the filebeat.yml with the file i provided below
+
 # How to Start the System
 
-Before starting the system, make sure all required configurations on **VM 2**, **VM 3**, and **VM 4** have been completed correctly.
+Before starting the system, make sure all required installation & configurations on **VM 2**, **VM 3**, and **VM 4** have been completed correctly by following the previous step.
 
 ### 1. Start all virtual machines
 Power on all VMs used in the experiment:
