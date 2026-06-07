@@ -23,6 +23,7 @@ The proposed system was implemented and tested in a virtualized environment usin
 
 | VM | Role | CPU | RAM | OS |
 |---|---|---:|---:|---|
+| VM 1 | Attacker Node | 1 Core | 2 GB | Kali Linux |
 | VM 2 | Honeypot & Analysis Node | 8 Core | 12 GB | Ubuntu 18.04.6 LTS |
 | VM 3 | SIEM Node | 1 Core | 4 GB | Ubuntu 22.04.5 LTS |
 | VM 4 | Real Server Node | 1 Core | 2 GB | Ubuntu 22.04.5 LTS |
@@ -40,20 +41,23 @@ Docker is required on VM 2 to run SLIPS & VM 3 to run Elasticsearch and Kibana. 
 docker pull stratosphereips/slips:latest
 ```
 
-### 3. Pull the ElasticSearch & Kibana image on VM 3
+### 4. Install Dionaea Honeypot
+Please follow the official Dionaea Honeypot installation guide https://dionaea.readthedocs.io/
+
+### 5. Pull the ElasticSearch & Kibana image on VM 3
 ```bash
 docker pull docker.elastic.co/elasticsearch/elasticsearch:9.3.1
 docker pull docker.elastic.co/kibana/kibana:9.3.1
 ```
 
-### 4. Create the SLIPS output directory on VM 2
+### 6. Create the SLIPS output directory on VM 2
 Create a directory in the home folder to store SLIPS output files:
 
 ```bash
 mkdir -p ~/slips_out
 ```
 
-### 5. Customize SLIPS configuration
+### 7. Customize SLIPS configuration
 SLIPS is an open-source tool, so its configuration can be adjusted based on the experimental needs.
 
 In this project, the time window was changed to 5 minutes in order to make detection faster. To modify the time window, open the following configuration file inside the SLIPS environment:
@@ -61,13 +65,16 @@ In this project, the time window was changed to 5 minutes in order to make detec
 config/slips.yaml
 ```
 
-### 6. Install filebeat on VM2 & VM4
+### 8. Install filebeat on VM2 & VM4
 
 ```bash
 sudo apt install filebeat -y
 sudo nano /etc/filebeat/filebeat.yml
 ```
 Edit the filebeat.yml with the file i provided below
+
+### 9. IP Blocking
+Go to VM4 and follow this method to block spesific ip using ufw https://www.cyberciti.biz/faq/how-to-block-an-ip-address-with-ufw-on-ubuntu-linux-server/
 
 # How to Start the System
 
@@ -101,13 +108,13 @@ curl http://localhost:9200
 ```
 If a JSON response is returned, the service is ready to use.
 
-### 5. Start Dionaea on VM 2
+### 5. Start Dionaea
 On VM 2, start the Dionaea honeypot service:
 ```bash
 sudo /opt/dionaea/bin/dionaea -l all,-debug -L '*'
 ```
 
-### 6. Start Dionaea on VM 2
+### 6. Start Slips
 Still on VM 2, run the SLIPS container:
 ```bash
 sudo docker run -d \
@@ -123,4 +130,4 @@ You can now perform attack simulations from the attacker machine, such as port s
 To simulate the admin acitivity on the real server, you can run the python code i provided below.
 
 ### 8. Monitor alerts
-To monitor all the security events and logs forwarded by Filebeat to the SIEM  node, open a web browser on VM 3 and navigate to http://192.168.100.30:5601. This address points to the Kibana web interface hosted on VM 3, which serves  as the centralized dashboard for visualizing all indexed data stored in Elasticsearch.
+To monitor all the security events and logs forwarded by Filebeat to the SIEM  node, open a web browser on VM 3 and navigate to http://[Your Configured IP]:5601. This address points to the Kibana web interface hosted on VM 3, which serves  as the centralized dashboard for visualizing all indexed data stored in Elasticsearch.
