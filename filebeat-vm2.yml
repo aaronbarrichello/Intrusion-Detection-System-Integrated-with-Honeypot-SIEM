@@ -40,5 +40,5 @@ setup.template.pattern: "slipslive*"
 setup.template.overwrite: true
 
 output.elasticsearch:
-  hosts: ["http://192.168.100.30:9200"]
+  hosts: ["http://[Your Configured IP]:9200"]
   index: "slipslive"
